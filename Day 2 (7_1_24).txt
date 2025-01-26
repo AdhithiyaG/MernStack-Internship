@@ -1,0 +1,291 @@
+//Restructing of the object with the attributes name
+const person ={
+    n : "sai",
+    r : 123,
+    a : 19
+}
+
+let {n:name,r:rollno,a:age} = person
+console.log(name + " " + rollno + " " + age)
+console.log(person)
+
+--------------------------------
+
+we can also add new attribute if we wanted
+
+const person ={
+    n : "sai",
+    r : 123,
+    a : 19
+}
+
+let {n:name,r:rollno,a:age,city="mdu"} = person /// here city is added attribute
+console.log(name + " " + rollno + " " + age + " " + city)
+console.log(person)
+-------------------------
+//Restdatas 
+
+const person={
+    name:'sai',
+    roll:34,
+    gender:'male',
+    city:'cbe'
+}
+
+let {name,...restdatas}=person
+console.log(name,restdatas)
+----------------------------------
+
+let arr = [1 , 'sai' , 3,4.5,2,5]
+let [p,q,r,s,t,u] = arr
+--------------------------
+
+let a=[1,2,3,34]
+let [p,q,r,s]=a
+
+console.log(p)
+console.log(q)
+console.log(r)
+console.log(s)
+-------------------
+
+let a=[1,2,3,40,58,60,70,80,90]
+let [p,q,...restdata ]=a
+ 
+console.log(p)
+console.log(q)
+
+console.log(restdata,typeof(restdata))
+
+let[r1,r2]=restdata
+
+ console.log(r1)
+console.log(r2)
+-----------------------
+function out()
+{
+    function inner()
+    {
+        console.log('im inside the inner fun!!!')
+        
+    }
+    console.log('im inside the out fun')
+   return inner
+}
+inn=out()
+inn()
+
+=================
+function out()
+{
+    console.log('im inside the out fun')
+    return function()
+    {
+        console.log('im inside the inner fun!!!')
+        
+    }
+   
+}
+inn=out()
+inn()
+==================
+function out()
+{
+    console.log('im inside the out fun')
+    return function add()
+    {
+        console.log('im inside the inner fun!!!')
+    }
+}
+inn=out()
+inn()
+-------------------------------
+
+//func expression 
+//hoistring won't happens here
+x = i()
+x()
+let i = function out()
+{
+    console.log('im inside the out fun')
+    return function add()
+    {
+        console.log('im inside the inner fun!!!')
+    }
+}
+---------------------------------
+
+let a=()=>{
+    console.log('welcome') // NANR
+}
+
+a()
+==========================
+
+let a=(a,b)=>{
+    c=a+b // WANR
+}
+
+res=a(12,3)
+console.log('the ans: ',res)
+==================================
+let a=(a,b)=>{
+    c=a+b // WAWR
+    return c
+}
+
+res=a(12,3)
+console.log('the ans: ',res)
+===============================
+let a=()=>{
+      // NAWR
+    return 'hai'
+}
+
+res=a()
+console.log('the ans: ',res)
+
+===============
+let a=(x,y)=> x+y 
+ 
+res=a(1,2)
+console.log(res)
+
+========================
+
+// Callback function-----
+
+function get(recCheckFun)
+{
+    name='sai1'
+setTimeout( ()=>{
+        if(name==='sai')
+        {
+            recCheckFun()
+        }
+    } ,2000)
+}
+function check()
+{
+    console.log('pass')
+}
+get(check)
+---------------------------------
+
+//Asynchronouns function
+function get(recCheckFun)
+{
+    name='sai1'
+setTimeout( ()=>{
+        if(name==='sai')
+        {
+            recCheckFun()
+        }
+    } ,2000)
+    
+    console.log("I won't wait man!!!")
+}
+function check()
+{
+    console.log('pass')
+}
+get(check)
+
+------------------------
+
+//synchronous function
+
+function get( recCheckFun)
+{
+    name='sai'
+        if(name==='sai')
+        {
+            recCheckFun()
+        }
+     
+     console.log('im in get')
+}
+function check()
+{
+    console.log('pass')
+}
+get(check)
+
+---------------
+
+pending 
+resolve(received)
+reject(never receive)
+
+-------------------------
+let res= new Promise((resolve,reject)=>{
+    name= undefined
+    setTimeout(()=>{
+        if(name==='sai')
+        {
+            resolve(name)
+        }
+        else
+        {
+            reject('no data')
+        }
+    } ,2000)
+})
+res
+.then((name)=>{
+   console.log('received: ',name) 
+})
+.catch((errr)=>{
+     console.log('pb is : ',errr) 
+})
+.finally(()=>{
+    console.log('always i will print : ') 
+})
+-------------------------------------------
+let one = new Promise((resolver, rejecter)=>{
+    let name = undefined
+    setTimeout(()=>{
+        if(name === "sai"){
+            resolver(name)
+        }
+        else{
+            rejecter("No data")
+        }
+    } ,2000)
+})
+one
+.then((name)=>{
+    console.log("received successully for",name)
+})
+.catch((err)=>{
+    console.log("received unsuccessully because",err)
+})
+.finally(()=>
+    console.log("I will always printed.")
+)
+-------------------------------------------------
+const res = () => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const a = 'sai'; 
+            if (a==='sai') {
+                resolve(a);
+            } else {
+                reject(new Error('no data'));
+            }
+        }, 1000);
+    });
+};
+
+const handleData = async () => {
+    try {
+        const name = await res(); // Wait for the promise to resolve
+        console.log('received', name); // Handle resolved value
+    } catch (err) {
+        console.log(err.message); // Handle error stack
+    } finally {
+        console.log('received'); // Final message
+    }
+};
+
+handleData(); // Call the async function

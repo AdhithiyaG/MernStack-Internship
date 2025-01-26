@@ -1,0 +1,151 @@
+MongoCrud
+Main.js
+const express = require("express")
+const exhdb = require("express-handlebars")
+const db = require('./db')
+const exp = express()
+const bodyParser = require('body-parser')
+const objid = db.objectId
+
+exp.engine(
+    'hbs',
+    exhdb.engine({
+        layoutsDir:'folder/',
+        defaultLayout:'app',
+        extname:'hbs'
+    })
+)
+
+exp.set('view engine','hbs')
+exp.set('views','folder')
+exp.use(bodyParser.urlencoded({extended:true}))
+
+exp.get('/',async (req,res)=>{
+    let edit_id ,edit_stu,delete_id
+    let database =await db.getConnection()
+    const collection = database.collection('prac')
+    const cursor = collection.find({})
+    // await collection.insertOne({name:"Ramesh",rollNo:21,age:35,details:{class:'csbs',Address:'kyk'}})
+    // await collection.insertOne({name:"Rahul",rollNo:31,age:45,details:{class:'cce',Address:'mdu'}})
+    let msg =''
+    let datas = await cursor.toArray()
+    console.log(datas)
+    if(req.query.edit_idd){
+        edit_id = req.query.edit_idd
+        edit_stu = await collection.findOne({_id : new objid(edit_id)})
+    }
+    if(req.query.delete_idd){
+        delete_id = req.query.delete_idd
+        console.log("Deleting request for:",delete_id)
+        await collection.deleteOne({_id:new objid(delete_id)})
+        res.redirect('/?status=3')
+    }
+    if(req.query.status === '1'){
+        msg = 'inserted successfully'
+    }
+    else if(req.query.status === '2'){
+        msg = "updated successfully"
+    }
+    else if(req.query.status === '3'){
+        msg = "deleted successfully"
+    }
+    res.render('app',{msg,x:datas,edit_id,edit_stu})
+
+})
+
+exp.post('/empinfo',async (req,res)=>{
+    const database = await db.getConnection()
+    const collection = database.collection('prac')
+    const employee = {name : req.body.name,rollNo: req.body.rollNo,age: req.body.age,details:{class:req.body.cls,Address:req.body.ads}}
+
+    await collection.insertOne(employee)
+
+    res.redirect('/?status=1')
+})
+exp.post('/updateinfo/:e_id',async(req,res)=>{
+    const database = await db.getConnection()
+    const collection = database.collection('prac')
+    const employee = {name : req.body.name,rollNo: req.body.rollNo,age: req.body.age,details:{class:req.body.cls,Address:req.body.ads}}
+
+    let ed_idd = req.params.e_id
+    await collection.updateOne({_id:new objid(ed_idd)},{$set:employee}) 
+
+    res.redirect('/?status=2')
+})
+exp.listen(1000,()=>{console.log("Listening on port 1000")})
+db.js
+Commented code are db using for express other thant that are mongoose code
+const mgdb = require("mongodb")
+const mgdb_client = mgdb.MongoClient
+const objectId = mgdb.ObjectId
+
+
+async function getConnection(){
+    const client = await mgdb_client.connect("mongodb://localhost:27017" )
+    const db = client.db('practice')
+    if(db){
+        console.log("Connected successfully")
+    }
+    else{
+        console.log("Connection unsuccessful")
+    }
+    return db
+}
+App.hbs
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            {--MongoCrud--}
+        </title>
+    </head>
+    <body>
+        <h1>MongoCrud Example</h1>
+        {{#if edit_id}}
+        <h3>Edit form</h3>
+         <form action="/updateinfo/{{edit_id}}" method="post">
+            <label for="name">Stu Name:</label>
+            <input type="text" name="name" value="{{edit_stu.name}}"/>
+         
+            <label for="rollNo">Stu RollNo:</label>
+            <input type="text" name="rollNo"value="{{edit_stu.rollNo}}" />
+          
+            <label for="age">Stu Age:</label>
+            <input type="text" name="age" value="{{edit_stu.age}}"/>
+            
+            <label for="cls">Stu Class:</label>
+            <input type="text" name="cls" value="{{edit_stu.details.class}}" />
+      
+            <label for="ads">Stu Address:</label>
+            <input type="text" name="ads" value="{{edit_stu.details.Address}}"/>
+      
+            <input type="submit" />
+        </form>
+        {{else}}
+         <h3>Create form</h3>
+         <form action="/empinfo" method="post">
+            <label for="name">Stu Name:</label>
+            <input type="text" name="name" />
+            <label for="rollNo">Stu RollNo:</label>
+            <input type="text" name="rollNo" />
+            <label for="age">Stu Age:</label>
+            <input type="text" name="age" />
+            <label for="cls">Stu Class:</label>
+            <input type="text" name="cls" />
+            <label for="ads">Stu Address:</label>
+            <input type="text" name="ads" />
+            <input type="submit" />
+        </form>
+        {{/if}}
+        <p>{{msg}}</p>
+        <ul>
+            {{#each x}}
+            <li>
+                Name: {{this.name}} RollNo: {{this.rollNo}} age: {{this.age}} Student class: {{this.details.class}} Student Address: {{this.details.Address}}
+            <a href="/?edit_idd={{this._id}}">Edit</a>  <a href="/?delete_idd={{this._id}}"onclick="return confirm('Are you wnat to delete this field?')">Delete</a>
+            </li>
+            {{/each}}
+        </ul>
+    </body>
+</html>
+

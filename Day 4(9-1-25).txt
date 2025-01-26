@@ -1,0 +1,331 @@
+import { useEffect, useState } from "react"
+export default function Demo(){
+    const[count1,setCount1]=useState(0)
+    const[count2,setCount2]=useState(0)
+    useEffect(()=>{
+        console.log('rendering......')
+    })
+    return(
+        <>
+        <h1>the state val is {count1}</h1>
+        <h1>the state val is {count2}</h1>
+        <button onClick={()=>{setCount1(count1+1)}}>count1</button>
+
+      
+        <button onClick={()=>{setCount2(count2+1)}}>count2</button>
+        </>
+
+
+    )
+}
+======================================
+import {   useReducer } from "react"
+export default function Demo(){
+    const transcationReducer=(balance,action)=>{
+            switch(action.type)
+            {
+                case 'WITHDRAW': 
+                    return balance - action.payload
+                case 'DEPOSIT': 
+                    return balance + action.payload
+                     
+            }
+
+
+
+    }
+
+    const withdraw=(amount)=>{
+        dispatch({type:'WITHDRAW',payload:amount})
+    }
+    const deposit=(amount)=>{
+        dispatch({type:'DEPOSIT',payload:amount})
+    }
+     const[balance,dispatch]= useReducer(transcationReducer,1000)
+    return(
+        <>
+        <h1>the balance val is {balance}</h1>
+         
+        <button onClick={()=>{withdraw(500)}}>Withdraw</button>
+        <button onClick={()=>{deposit(1000)}}>Deposit</button>
+
+      
+       
+        </>
+
+
+    )
+}
+===============================
+import { useState } from "react"
+ 
+
+export default function Parent1(){
+    const[user,setuser]=useState('sai')
+    const a=()=>{
+        setuser()
+    }
+    return(
+         <>
+         <h1>Parent</h1>
+         <C1 user={user}/>
+         </>
+    )
+
+}
+ function C1(val){
+    const{user}=val
+    
+    return(
+         <>
+         <h1>C1</h1>
+         <C2 user={user}/>
+         </>
+    )
+
+}
+function C2(val){
+    const{user}=val
+    
+    return(
+         <>
+         <h1>C2</h1>
+         <C3 user={user}/>
+         </>
+    )
+
+}
+
+ function C3(val){
+    const{user}=val
+    
+    return(
+         <>
+         <h1>C3</h1>
+         <C4 user={user}/>
+         </>
+    )
+
+}function C4(val){
+    const{user}=val
+    
+    return(
+         <>
+         <h1>C4</h1>
+         <C5 user={user}/>
+         </>
+    )
+
+}
+function C5(val){
+    const{user}=val
+    
+    return(
+         <>
+         <h1>C5 the data is {user}</h1>
+          
+         </>
+    )
+
+}
+=============================
+import { createContext, useContext, useState } from "react"
+
+const userContext=createContext()
+export default function Parent2(){
+      const[user]=useState('sai')
+return(
+    <>
+    <userContext.Provider value={user}>
+    <h1>welcome useContext Hook</h1>
+    <C1/>
+    </userContext.Provider>
+    </>
+)}
+function C1( ){
+     return(
+         <>
+         <h1>C1</h1>
+         <C2  />
+         </>
+    )}
+function C2( ){
+    return(
+         <>
+         <h1>C2</h1>
+         <C3 />
+         </>
+    )
+}
+ function C3( ){
+    return(
+         <>
+         <h1>C3</h1>
+         <C4 />
+         </>
+    )
+
+}function C4( ){
+    return(
+         <>
+         <h1>C4</h1>
+         <C5  />
+         </>
+    )
+
+}
+function C5( ){
+    const user=useContext(userContext)
+    return(
+         <>
+         <h1>C5 the data is {user}</h1>
+          
+         </>
+    )
+
+}
+================================
+import { createContext, useContext, useState } from "react"
+
+const userContext=createContext()
+export default function Parent2(){
+      const[user,setUser]=useState('Sairam')
+return(
+    <>
+    <userContext.Provider value={{user,setUser}}>
+    <h1>welcome useContext Hook</h1>
+    <C1/>
+    </userContext.Provider>
+    </>
+)}
+function C1( ){
+     return(
+         <>
+         <h1>C1</h1>
+         <C2  />
+         </>
+    )}
+function C2( ){
+    return(
+         <>
+         <h1>C2</h1>
+         <C3 />
+         </>
+    )
+}
+ function C3( ){
+    return(
+         <>
+         <h1>C3</h1>
+         <C4 />
+         </>
+    )
+
+}function C4( ){
+    return(
+         <>
+         <h1>C4</h1>
+         <C5  />
+         </>
+    )
+
+}
+ 
+ 
+
+function C5() {
+  const { user, setUser } = useContext(userContext);
+
+//   const updateUser= () => {
+//     setUser("ram");
+//   };
+
+  return (
+    <>
+      <h1>C5: The data is {user}</h1>
+      <button onClick={()=>{
+        setUser("ram")
+      }}>Change User</button>
+    </>
+  );
+}
+================================
+import { useState } from "react";
+import C2 from "./C2";
+
+export default function C1() {
+  const [user] = useState("parent");
+  const [childData, setChildData] = useState(""); 
+
+ 
+  const handleChildData = (data) => {
+    setChildData(data);
+  };
+
+  return (
+    <>
+      <h1>This is C1.........</h1>
+      <C2 user={user} sendDataToParent={handleChildData} />
+      <h1>Data from my child: {childData}</h1>
+    </>
+  );
+}
+---------------------------------
+import { useState } from "react";
+
+export default function C2({ user, sendDataToParent }) {
+  const [stu] = useState("I'm your student");
+  const sendData = () => {
+    sendDataToParent(stu);
+  };
+
+  return (
+    <>
+      <p>This is C2</p>
+      <p>
+        C2: The data coming from C1 is <b>{user}</b>
+      </p>
+      <button onClick={sendData}>Send Data to Parent</button>
+    </>
+  );
+}
+=================================
+const { useState } = require("react")
+export default function Form1()
+{
+    function formSubmit(formdata)
+    {    formdata.preventDefault()
+        console.log('success............')
+    }
+    const[name,setName]=useState("")
+    return(
+        <>
+        <form>
+Name: <input type="text" onChange={(data)=>{setName(data.target.value)}}></input>
+        <button onClick={formSubmit}>signup</button>
+        </form>
+        <h1>the name is: {name}</h1>
+        </>
+    )
+}
+=================================
+const { useState } = require("react")
+export default function Form1()
+{
+    function formSubmit(formdata)
+    {    
+        formdata.preventDefault()
+        console.log('success............')
+    }
+    const[name,setName]=useState("")
+    return(
+        <>
+        <form onSubmit={formSubmit}>
+Name: <input type="text" onChange={(data)=>{setName(data.target.value)}}></input>
+        <input type="submit" value="signup"></input>
+        </form>
+        <h1>the name is: {name}</h1>
+        </>
+    )
+}
+==========================

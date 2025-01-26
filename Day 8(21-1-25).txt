@@ -1,0 +1,250 @@
+const initialState={
+    eusers:[],
+     persons: []
+
+
+}
+export const userSlice= createSlice({   
+    name:'mySlice', // unique name
+    initialState,
+    reducers:{
+        setUsers:(state,action)=>{ // it contains 2 argu , first one action 2nd payload
+            state.eusers=[...state.eusers,action.payload]
+        },
+        deleteUser:(state,action)=>{
+            state.eusers=state.eusers.filter((user,index)=>index!==action.payload)
+        }
+    }
+})
+export const {setUsers,deleteUser}=userSlice.actions
+export default userSlice.reducer
+[21-01-2025 11:08] +91 95855 24527: import { configureStore } from "@reduxjs/toolkit";
+ 
+import myReducer from '../slices/userSlice';  
+import myFruitReducer from '../slices/fruitSlice';  
+  
+ const store =configureStore({
+    reducer:{
+        userInfo:myReducer,
+        fruitsInfo:myFruitReducer
+    }
+ })
+ export default store
+[21-01-2025 11:08] +91 95855 24527: import React from 'react';
+  import ReactDOM from 'react-dom/client';
+  import './index.css';
+  import App from './App';
+  import reportWebVitals from './reportWebVitals';
+  import Display from './Display'
+  import Datas from './Datas'
+  import MyClass from './MyClass';
+  import Test from './Test';
+  import States from './States';
+  import Ren from './Ren';
+  import Parent1 from './Parent1';
+  import Parent2 from './Parent2';
+  import Demo from './Demo';
+  import C1 from './C1';
+  import C3 from './C3';
+  import Form1 from './Form1';
+  import { Provider } from 'react-redux';
+  import Sty1 from './Sty1';
+  import Sty3 from './Sty3';
+  import store from './apps/store';
+  
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(
+  
+  
+    // <React.StrictMode>
+      <Provider store={store}>
+  <App/>
+  </Provider>
+    // </React.StrictMode>
+  );
+
+  // If you want to start measuring performance in your app, pass a function
+  // to log results (for example: reportWebVitals(console.log))
+  // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+  reportWebVitals();
+[21-01-2025 11:08] +91 95855 24527: import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUsers } from "./slices/userSlice"; // Assuming you have this action defined
+
+export default function Form1() {
+  const dispatch = useDispatch();
+  const [input, setInput] = useState({
+    roll: '',
+    name: '',
+    city: '',
+  });
+
+  // Handle form submission
+  const addUser = (e) => {
+    e.preventDefault(); // Prevent default form submission
+    dispatch(setUsers(input)); // Dispatch the action with input data
+  };
+
+  // Update the input fields
+  const updateData = (e) => {
+    const { name, value } = e.target;
+    setInput((prevData) => ({
+      ...prevData,
+      [name]: value, // Update the corresponding field
+    }));
+  };
+
+  return (
+    <div className="container">
+      <form onSubmit={addUser}>
+
+        {/* Name Field */}
+        <div className="form-group">
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            className="form-control"
+            id="name"
+            name="name"
+            value={input.name}
+            onChange={updateData}
+            placeholder="Enter name"
+          />
+        </div>
+
+        {/* Roll Field */}
+        <div className="form-group">
+          <label htmlFor="roll">Roll</label>
+          <input
+            type="text"
+            className="form-control"
+            id="roll"
+            name="roll"
+            value={input.roll}
+            onChange={updateData}
+            placeholder="Enter roll number"
+          />
+        </div>
+
+        {/* City Field */}
+        <div className="form-group">
+          <label htmlFor="city">City</label>
+          <input
+            type="text"
+            className="form-control"
+            id="city"
+            name="city"
+            value={input.city}
+            onChange={updateData}
+            placeholder="Enter city"
+          />
+        </div>
+
+        {/* Submit Button */}
+        <button type="submit" className="btn btn-primary">Submit</button>
+
+      </form>
+    </div>
+  );
+}
+[21-01-2025 11:08] +91 95855 24527: import { useDispatch, useSelector } from "react-redux"
+import { useParams } from "react-router-dom"
+import { deleteUser } from "./slices/userSlice"
+
+export default function User()
+{ 
+    // const{id}=useParams()
+    const users=useSelector((state)=> state.userInfo.eusers )
+const dispatch= useDispatch()
+const deleteUserInfo=(index)=>{
+dispatch(deleteUser(index))
+}
+    console.log('the users: ',users)
+    return(
+        <>
+          <h1> im the USER</h1>
+          {
+            users.map( (user,index)=>{
+                return (
+                    <div key={index}>
+                        <h1>{user.roll}</h1>
+                        <h1>{user.name}</h1>
+                        <h1>{user.city}</h1>
+                        <button onClick={() => deleteUserInfo(index)}>delete</button>
+                        
+                     </div>
+                )
+            })
+          }
+        {/* <h1> im the USER {id}</h1> */}
+        </>
+    )
+}
+[21-01-2025 11:08] +91 95855 24527: import {createSlice} from '@reduxjs/toolkit'
+const initialState={
+    eusers:[],
+     fruits: []
+
+
+}
+export const fruitSlice= createSlice({   
+    name:'mySlice1', // unique name
+    initialState,
+    reducers:{
+        setFruitInfo:(state,action)=>{ // it contains 2 argu , first one action 2nd payload
+            state.fruits=[...state.fruits,action.payload]
+        },
+        deleteFruit:(state,action)=>{
+            state.fruits=state.fruits.filter((fruit,index)=>index!==action.payload)
+        }
+    }
+})
+export const {setFruitInfo,deleteFruit}=fruitSlice.actions
+export default fruitSlice.reducer
+[21-01-2025 11:09] +91 95855 24527: import { useState } from "react"
+import  {useDispatch}  from  "react-redux";
+ 
+import {setFruitInfo }from './slices/fruitSlice';
+export default function About()
+{
+    const fruitDispatch= useDispatch()  
+
+const [fruitName,setFruit]=useState("");
+console.log('the fruit name b4 is',fruitName)
+    function updateFruit(e)
+    {
+         
+        var val=e.target.value
+        setFruit( val)
+      
+        console.log('the fruit name is',fruitName)
+    }
+
+    function addFruit(a)
+    {
+        a.preventDefault()
+        fruitDispatch(setFruitInfo(fruitName))
+    }
+    return(
+        <>
+        <h1>About PAGE</h1>
+        <input type="text" onChange={updateFruit}></input>
+        <button onClick={addFruit}>add fruit</button>
+        </>
+    )
+}
+[21-01-2025 11:09] +91 95855 24527: import { useSelector } from "react-redux"
+
+export default function Contact()
+{
+const allFruits= useSelector((state)=> state.fruitsInfo.fruits)
+
+ console.log("the fruits",allFruits)
+
+
+    return(
+        <>
+        <h1>Contact Fruit PAGE</h1>
+        </>
+    )
+}

@@ -1,0 +1,267 @@
+const { useState } = require("react")
+export default function Form1()
+{
+    function formSubmit(formdata)
+    {    
+        formdata.preventDefault()
+        console.log('success............,',input.name,input.roll,input.city)
+    }
+    const [input,setInput]=useState(
+        {
+            roll:'',
+            name:'',
+            city:''
+        }
+    )
+    return(
+        <>
+        <form onSubmit={formSubmit}
+Name: <input type="text" onChange={(data)=>{setInput({...input,name:data.target.value})}}></input><br/>
+Roll: <input type="text" onChange={(data)=>{setInput({...input,roll:data.target.value})}}></input><br/>
+City: <input type="text" onChange={(data)=>{setInput({...input,city:data.target.value})}}></input><br/>
+        <input type="submit" value="signup"></input>
+        </form>
+        
+        </>
+    )
+}
+=====================================
+const { useState } = require("react")
+export default function Form1()
+{
+    function formSubmit(formdata)
+    {    
+        formdata.preventDefault()
+       
+        console.log('success............,',input.name,input.roll,input.city)
+    }
+    function updateData(d)
+    {
+        var variable =d.target.name;
+        var value = d.target.value;
+        console.log("the vari: ",variable,"the val: ",value)
+    }
+    const [input,setInput]=useState(
+        {
+            roll:'',
+            name:'',
+            city:''
+        }
+    )
+    return(
+        <>
+        <form onSubmit={formSubmit}>
+        Name: <input type="text" name='txtName' onChange={updateData}></input><br/>
+Roll: <input type="text" name='txtRoll'  onChange={updateData}></input><br/>
+City: <input type="text" name='txtCity'   onChange={updateData}></input><br/>
+{/* Name: <input type="text" name='txtName' onChange={(data)=>{setInput({...input,name:data.target.value})}}></input><br/>
+Roll: <input type="text" name='txtRoll' onChange={(data)=>{setInput({...input,roll:data.target.value})}}></input><br/>
+City: <input type="text" name='txtCity' onChange={(data)=>{setInput({...input,city:data.target.value})}}></input><br/> */}
+        <input type="submit" value="signup"></input>
+        </form>
+        
+        </>
+    )
+}
+================================
+const { useState } = require("react")
+export default function Form1()
+{
+    function formSubmit(formdata)
+    {    
+        formdata.preventDefault()
+       
+        console.log('success............,',input.name,input.roll,input.city)
+    }
+    function updateData(d)
+    {
+        var variable =d.target.name;
+        var value = d.target.value;
+        console.log("the vari: ",variable,"the val: ",value)
+        setInput((data)=>{
+                return {...data,[variable]:value}
+        }
+        )
+    }
+    const [input,setInput]=useState(
+        {
+            roll:'',
+            name:'',
+            city:''
+        }
+    )
+    return(
+        <>
+        <form onSubmit={formSubmit}>
+        Name: <input type="text" name='name' onChange={updateData}></input><br/>
+Roll: <input type="text" name='roll'  onChange={updateData}></input><br/>
+City: <input type="text" name='city'   onChange={updateData}></input><br/>
+{/* Name: <input type="text" name='txtName' onChange={(data)=>{setInput({...input,name:data.target.value})}}></input><br/>
+Roll: <input type="text" name='txtRoll' onChange={(data)=>{setInput({...input,roll:data.target.value})}}></input><br/>
+City: <input type="text" name='txtCity' onChange={(data)=>{setInput({...input,city:data.target.value})}}></input><br/> */}
+        <input type="submit" value="signup"></input>
+        </form>
+        
+        </>
+    )
+}=
+==================================
+import logo from './logo.svg';
+import './App.css';
+import Home from './Home';
+import Contact from './Contact';
+import About from './About';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import User from './User';
+
+function App() {
+  return (
+    <>
+    
+    <h1>welcome to the cls</h1>
+    <BrowserRouter>
+    <ul>
+     <li><Link to="/">HOME</Link> </li>
+     <li><Link to="/aboutus">ABOUT</Link> </li>
+     <li><Link to="/contact-us">CONTACT</Link> </li> 
+     <li><Link to="/user/10">USER 10</Link> </li> 
+     <li><Link to="/user/13">USER 13</Link> </li> 
+     <li><Link to="/user/134">USER 134</Link> </li> 
+    </ul>
+        <Routes>
+          <Route path='/' element={<Home/>}></Route>
+          <Route path='/aboutus' element={<About/>}></Route> 
+          <Route path='/contact-us' element={<Contact/>}></Route>
+          <Route path='/user/:id' element={<User/>}></Route>
+        </Routes>
+    </BrowserRouter>
+
+    </>
+  )
+   
+}
+
+export default App;
+=============================
+import { useParams } from "react-router-dom"
+
+export default function User()
+{
+    const{id}=useParams()
+    return(
+        <>
+        <h1> im the USER {id}</h1>
+        </>
+    )
+}
+========================
+import logo from './logo.svg';
+import './App.css';
+import Home from './Home';
+import Contact from './Contact';
+import About from './About';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import User from './User';
+import Newbook from './Newbook';
+import Oldbook from './Oldbook';
+function App() {
+  return (
+    <>
+    
+    <h1>welcome to the cls</h1>
+    <BrowserRouter>
+    <ul>
+     <li><Link to="/">HOME</Link> </li>
+     <li><Link to="/aboutus">ABOUT</Link> </li>
+     <li><Link to="/contact-us">CONTACT</Link> </li> 
+     <li><Link to="/user/10">USER 10</Link> </li> 
+     <li><Link to="/user/13">USER 13</Link> </li> 
+     <li><Link to="/user/134">USER 134</Link> </li> 
+     <li><Link to="/book/new-book">NEW-BOOK</Link> </li>
+     <li><Link to="/book/old-book">OLD-BOOK</Link> </li>
+      
+    </ul>
+        <Routes>
+          <Route path='/' element={<Home/>}></Route>
+          <Route path='/aboutus' element={<About/>}></Route> 
+          <Route path='/contact-us' element={<Contact/>}></Route>
+          <Route path='/user/:id' element={<User/>}></Route>
+          <Route path='/book/new-book' element={<Newbook/>}></Route>
+          <Route path='/book/old-book' element={<Oldbook/>}></Route>
+          
+
+        </Routes>
+    </BrowserRouter>
+
+    </>
+  )
+   
+}
+
+export default App;
+================================
+import logo from './logo.svg';
+import './App.css';
+import Home from './Home';
+import Contact from './Contact';
+import About from './About';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import User from './User';
+import Newbook from './Newbook';
+import Oldbook from './Oldbook';
+function App() {
+  return (
+    <>
+    
+    <h1>welcome to the cls</h1>
+    <BrowserRouter>
+    <ul>
+     <li><Link to="/">HOME</Link> </li>
+     <li><Link to="/aboutus">ABOUT</Link> </li>
+     <li><Link to="/contact-us">CONTACT</Link> </li> 
+     <li><Link to="/user/10">USER 10</Link> </li> 
+     <li><Link to="/user/13">USER 13</Link> </li> 
+     <li><Link to="/user/134">USER 134</Link> </li> 
+     <li><Link to="/books/new-book">NEW-BOOK</Link> </li>
+     <li><Link to="/books/old-book">OLD-BOOK</Link> </li>
+      
+    </ul>
+        <Routes>
+          <Route path='/' element={<Home/>}></Route>
+          <Route path='/aboutus' element={<About/>}></Route> 
+          <Route path='/contact-us' element={<Contact/>}></Route>
+          <Route path='/user/:id' element={<User/>}></Route>
+          <Route path='/books'>
+          <Route path='new-book' element={<Newbook/>}></Route>
+          <Route path='old-book' element={<Oldbook/>}></Route>
+          </Route>
+          
+
+        </Routes>
+    </BrowserRouter>
+
+    </>
+  )
+   
+}
+
+export default App;
+==================================
+import { useNavigate } from "react-router-dom"
+
+export default function Login()
+{
+  const navigate=useNavigate()
+
+  function gotoDashboard()
+  {
+    navigate('/dashboard')
+  }
+    return(
+        <>
+        <h1>LOGIN PAGE</h1>
+        <button onClick={()=>navigate('/dashboard')}>go to dashboard</button>
+        </>
+    )
+}
+=========================

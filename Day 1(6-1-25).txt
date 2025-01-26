@@ -1,0 +1,145 @@
+// const message = 'Hello world!!!' // Try edit me
+
+// console.log(message)
+
+// message = 'Hello world!!!' // Try edit me
+// console.log(message)
+// Automatically var will be assigned by Hi String concept
+=======================
+const myName= 'Kumar' // Try edit me
+var age = 20
+// Template literals
+console.log(`my name is ${myName} and my age is ${age}`)
+// use backtick symbol
+========================
+let reassign no 
+var reassign redeclare
+const no  no
+
+==============
+var myName = "outside"
+function disp(){
+  //var myName = "inside function"
+  console.log("i am inside the func: ",myName)
+  if(false){
+     var myName = "inside block of the function "
+     console.log("i am inside the block of the func: ",myName)
+  }
+}
+disp()
+
+hoistring is a built-in behaviour that moves the declarations of functions , variables and classes to their top of their scope before the code is executed
+
+references variable are heap memory.
+
+in javascript internally the arrays are stored as object type likewise
+
+{
+0:20,
+1:30
+}
+
+var a = `eer
+ee
+e`
+
+console.log(a)
+
+bigint - last of the input is 'n'
+
+(n denotes not a regular number).
+const person = {
+  stuName : "Ram",
+  roll : 20
+}
+person.stuName = "Sai"
+person.roll = 30n
+var a = `eer
+ee
+e`
+console.log(a)
+console.log(typeof a)
+
+console.log(typeof person)
+
+var obj = null
+console.log(typeof obj)
+
+var j
+console.log(j,typeof j)
+
+const person = {
+  stuName : "Ram",
+  roll : 20
+}
+person.stuName = "Sai"
+person.roll = 30n
+var a = `eer
+ee
+e`
+console.log(a)
+console.log(typeof a)
+
+console.log(typeof person)
+
+var obj = null
+console.log(typeof obj)
+
+var j=Infinity
+console.log(j,typeof j)
+
+let a = '6'
+let b = 6
+console.log(a===b)
+console.log(a!==b)
+console.log(a==b)
+console.log(a!=b)
+
+let a = 2
+let b = 3
+console.log(a**b)
+
+console.log(runnable)
+
+null is for object typed datas
+
+let a=[12,4,"sai",23.4]
+let datas=[100,200,300]
+let person={name:'reena', roll:5}
+console.log(a)
+a.push(datas,800,person)
+console.log(a)
+
+console.log(a[4])
+a[4].push(400)
+console.log(a)
+============================
+let a=[12,4,"sai",23.4]
+let datas=[100,200,300]
+let person={name:'reena', roll:5}
+console.log(a)
+a.unshift(datas,800,person)
+a.unshift(800)
+console.log(a)
+console.log(a[0])
+
+=========================================
+let a=[12,4,"sai",23.4]
+let datas=[100,200,300]
+let person={name:'reena', roll:5}
+a.push(datas,800,person)
+//res=a.pop()
+res=a[4].pop()
+ 
+console.log("result" ,res)
+console.log(a)
+
+===========================================
+let a=[12,4,"sai",23.4]
+ 
+res=a.shift()
+ 
+console.log("result" ,res)
+console.log(a)
+
+===============================

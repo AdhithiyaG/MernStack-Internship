@@ -1,0 +1,75 @@
+db.js
+Commented code are db using for express other thant that are mongoose code
+const mgdb = require("mongodb")
+const mgdb_client = mgdb.MongoClient
+const objectId = mgdb.ObjectId
+
+
+async function getConnection(){
+    const client = await mgdb_client.connect("mongodb://localhost:27017" )
+    const db = client.db('practice')
+    if(db){
+        console.log("Connected successfully")
+    }
+    else{
+        console.log("Connection unsuccessful")
+    }
+    return db
+}
+App.hbs
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            {--MongoCrud--}
+        </title>
+    </head>
+    <body>
+        <h1>MongoCrud Example</h1>
+        {{#if edit_id}}
+        <h3>Edit form</h3>
+         <form action="/updateinfo/{{edit_id}}" method="post">
+            <label for="name">Stu Name:</label>
+            <input type="text" name="name" value="{{edit_stu.name}}"/>
+         
+            <label for="rollNo">Stu RollNo:</label>
+            <input type="text" name="rollNo"value="{{edit_stu.rollNo}}" />
+          
+            <label for="age">Stu Age:</label>
+            <input type="text" name="age" value="{{edit_stu.age}}"/>
+            
+            <label for="cls">Stu Class:</label>
+            <input type="text" name="cls" value="{{edit_stu.details.class}}" />
+      
+            <label for="ads">Stu Address:</label>
+            <input type="text" name="ads" value="{{edit_stu.details.Address}}"/>
+      
+            <input type="submit" />
+        </form>
+        {{else}}
+         <h3>Create form</h3>
+         <form action="/empinfo" method="post">
+            <label for="name">Stu Name:</label>
+            <input type="text" name="name" />
+            <label for="rollNo">Stu RollNo:</label>
+            <input type="text" name="rollNo" />
+            <label for="age">Stu Age:</label>
+            <input type="text" name="age" />
+            <label for="cls">Stu Class:</label>
+            <input type="text" name="cls" />
+            <label for="ads">Stu Address:</label>
+            <input type="text" name="ads" />
+            <input type="submit" />
+        </form>
+        {{/if}}
+        <p>{{msg}}</p>
+        <ul>
+            {{#each x}}
+            <li>
+                Name: {{this.name}} RollNo: {{this.rollNo}} age: {{this.age}} Student class: {{this.details.class}} Student Address: {{this.details.Address}}
+            <a href="/?edit_idd={{this._id}}">Edit</a>  <a href="/?delete_idd={{this._id}}"onclick="return confirm('Are you wnat to delete this field?')">Delete</a>
+            </li>
+            {{/each}}
+        </ul>
+    </body>
+</html>
